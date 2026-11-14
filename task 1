@@ -1,0 +1,66 @@
+// Лабораторна робота №11. Завдання, варіант 7
+#include <iostream>
+#include <iomanip>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+
+int main()
+{
+    int first, last;
+
+    cout << "Підрахунок \"щасливих\" квитків у рулоні" << endl;
+    cout << "Квиток щасливий, якщо сума перших трьох цифр дорівнює сумі останніх трьох." << endl << endl;
+
+    cout << "Введіть початковий номер квитка (від 100000 до 999999): ";
+    cin >> first;
+    while (first < 100000 || first > 999999)
+    {
+        cout << "Помилка: номер має бути шестизначним. Введіть ще раз: ";
+        cin >> first;
+    }
+
+    cout << "Введіть кінцевий номер квитка (від " << first << " до 999999): ";
+    cin >> last;
+    while (last < first || last > 999999)
+    {
+        cout << "Помилка: кінцевий номер має бути не меншим за початковий і шестизначним. Введіть ще раз: ";
+        cin >> last;
+    }
+
+    cout << endl << "Щасливі квитки з номерами від " << first << " до " << last << ":" << endl << endl;
+
+    int count = 0;
+    char text[8];
+
+    for (int number = first; number <= last; number++)
+    {
+        sprintf(text, "%d", number);
+
+        int sumLeft = 0;
+        int sumRight = 0;
+
+        for (const char *p = text; p < text + 3; p++)
+            sumLeft += *p - '0';
+
+        for (const char *p = text + 3; p < text + 6; p++)
+            sumRight += *p - '0';
+
+        if (sumLeft == sumRight)
+        {
+            count++;
+            cout << setw(9) << text;
+
+            if (count % 8 == 0)
+                cout << endl;
+        }
+    }
+
+    cout << endl << endl;
+    if (count == 0)
+        cout << "У заданому рулоні щасливих квитків немає." << endl;
+    else
+        cout << "Кількість щасливих квитків: " << count << endl;
+
+    return 0;
+}
